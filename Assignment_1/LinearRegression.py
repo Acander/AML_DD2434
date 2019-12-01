@@ -2,6 +2,8 @@ import pylab as pb
 import numpy as np
 from math import pi
 from scipy.spatial.distance import cdist
+from scipy.stats import multivariate_normal
+from mpl_toolkits.mplot3d import Axes3D
 
 # To sample from a multivariate Gaussian
 # f = np.random.multivariate_normal(mu,K);
@@ -18,17 +20,38 @@ def main():
     x = data[0]
     t = data[1]
 
-    print("Input vector: ")
+    prior = generate2DPrior()
+    """print("Input vector: ")
     print(x)
     print("\n")
     print("Output vector: ")
-    print(t)
+    print(t)"""
 
-    plot = pb.scatter(x, t)
+    pb.scatter(x, t)
+    pb.plot
+
+    x = np.linspace(-10, 10, 500)
+    y = np.linspace(-10, 10, 500)
+    X, Y = np.meshgrid(x, y)
+    pos = np.empty(X.shape + (2,))
+    pos[:, :, 0] = X
+    pos[:, :, 1] = Y
+    rv = generate2DPrior()
+
+    fig = pb.figure()
+    ax = fig.gca(projection='3d')
+    ax.plot_surface(X, Y, rv.pdf(pos), cmap='viridis', linewidth=0)
+    ax.set_xlabel('w0 axis')
+    ax.set_ylabel('w1 axis')
+    ax.set_zlabel('Z axis')
+
     pb.show()
 
-def generateDataSet2D(w0, w1):
 
+def generate2DPrior():
+    return multivariate_normal([0, 0], [[1, 0], [0, 1]])
+
+def generateDataSet2D(w0, w1):
     x = np.random.uniform(-1, 1, 200)
     t = []
     for i, xi in enumerate(x):
