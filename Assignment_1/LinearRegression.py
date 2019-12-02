@@ -112,8 +112,8 @@ def generate2DPosteriorFromDataPoints(dataPoints, prior, likelihood):
 
     printPriorAndLikelihoodCovariance(tau, sigma)
 
-    covariance = np.linalg.inv(np.dot(np.linalg.inv(sigma), np.dot(x, x)) + np.linalg.inv(tau))
-    mean = np.dot(np.dot(covariance, np.linalg.inv(sigma)), np.dot(x, t))
+    covariance = np.linalg.inv(np.dot(np.linalg.inv(sigma), np.dot(x.transpose(), x)) + np.linalg.inv(tau))
+    mean = np.dot(np.dot(covariance, np.linalg.inv(sigma)), np.dot(x.transpose(), t))
 
     printDatapoint(x, t)
     printPosteriorParameters(mean, covariance)
