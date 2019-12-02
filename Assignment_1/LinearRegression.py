@@ -16,15 +16,15 @@ from mpl_toolkits.mplot3d import Axes3D
 #Date pairs has same indecies in x and t
 
 def main():
-    data = generateDataSet2D(0.5, 1.5)
+    data = generateDataSet2D(1.5, 0.5)
     x = data[0]
     t = data[1]
 
     print("Input vector: ")
-    print(x[7])
+    print(x)
     print("\n")
     print("Output vector: ")
-    print(t[7])
+    print(t)
 
     pb.scatter(x, t)
     pb.plot
@@ -34,8 +34,8 @@ def main():
     posterior = generate2DPosteriorFromSinglePoint(x, t, prior, likelihood)
 
     #Prep plot for prior and posterior
-    x = np.linspace(-10, 10, 500)
-    y = np.linspace(-10, 10, 500)
+    x = np.linspace(-3, 3, 500)
+    y = np.linspace(-3, 3, 500)
     X, Y = np.meshgrid(x, y)
     pos = np.empty(X.shape + (2,))
     pos[:, :, 0] = X
@@ -68,11 +68,24 @@ def generateLikelihood2D():
 
 def generate2DPosteriorFromSinglePoint(xList, tList, prior, likelihood):
     x = xList[7]
+    x = np.array([1, x])
     t = tList[7]
     tau = prior.cov
     sigma = likelihood.cov
-    mean = np.linalg.inv(np.linalg.inv(sigma)*x*x + np.linalg.inv(tau))*np.linalg.inv(sigma)*x*t
-    covariance = (np.linalg.inv(tau)*x*x + np.linalg.inv(sigma))
+
+    """print(tau)
+    print(np.linalg.inv(tau))
+    print("\n")"""
+
+    """print(sigma)
+    print(np.linalg.inv(sigma))
+    print("\n")"""
+
+    covariance = np.linalg.inv(np.linalg.inv(sigma) * x * x + np.linalg.inv(tau))
+    mean = np.dot(covariance*np.linalg.inv(sigma), x*t)
+
+    """print(np.dot(np.linalg.inv(sigma), x*x))"""
+
     print(x)
     print("\n")
     print(t)
@@ -86,7 +99,7 @@ def generateDataSet2D(w0, w1):
     x = np.random.uniform(-1, 1, 200)
     t = np.array([])
     for i, xi in enumerate(x):
-        ti = w0 * xi + w1 + np.random.normal(0, 0.2)
+        ti = w1 * xi + w0 + np.random.normal(0, 0.2)
         t = np.append(t, ti)
 
     return [x, t]
