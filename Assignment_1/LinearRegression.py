@@ -32,11 +32,12 @@ def main():
     prior = generate2DPrior()
     likelihood = generateLikelihood2D()
 
-    n = 7
-    sampledIndices = np.random.random_integers(0, numberOfDataPoints-1, n)
+    numberOfTrainingSamples = 7
+
+    sampledIndices = np.random.randint(0, numberOfDataPoints-1, numberOfTrainingSamples)
     dataPointsX = np.array([])
     dataPointsT = np.array([])
-    for i in range(n):
+    for i in range(numberOfTrainingSamples):
         dataPointsX = np.append(dataPointsX, x[sampledIndices[i]])
         dataPointsT = np.append(dataPointsT, t[sampledIndices[i]])
 
@@ -50,7 +51,9 @@ def main():
     pb.title("Posterior Model Samples")
     pb.xlabel("w0")
     pb.ylabel("w1")
-    pb.show()
+    pb.xlim(-3, 3)
+    pb.ylim(-3, 3)
+    pb.show(    )
 
     #Prep plot for prior and posterior
     x = np.linspace(-3, 3, 500)
