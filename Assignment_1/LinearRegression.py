@@ -16,9 +16,9 @@ from mpl_toolkits.mplot3d import Axes3D
 #Date pairs has same indecies in x and t
 
 def main():
-    sigma = 0.1
+    noise = 1
     numberOfDataPoints = 200
-    data = generateDataSet2D(0.5, -1.5, numberOfDataPoints, sigma)
+    data = generateDataSet2D(0.5, -1.5, numberOfDataPoints, noise)
     x = data[0]
     t = data[1]
 
@@ -31,9 +31,10 @@ def main():
     pb.show()
 
     prior = generate2DPrior()
+    sigma = 1
     likelihood = generateLikelihood2D(sigma)
 
-    numberOfTrainingSamples = 4
+    numberOfTrainingSamples = 7
 
     sampledIndices = np.random.randint(0, numberOfDataPoints-1, numberOfTrainingSamples)
     dataPointsX = np.array([])
