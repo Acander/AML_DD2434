@@ -3,8 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="73f0459b-257c-4b47-803e-9e17b20797cc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/LinearRegression.py" beforeDir="false" afterPath="$PROJECT_DIR$/LinearRegression.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plots/myplot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Plots/priorDistribution.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plots/Posterior(T=1).png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plots/Posterior(T=4).png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plots/Posterior(T=7).png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plots/PosteriorModelSamples(T=1).png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plots/PosteriorModelSamples(T=4).png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Plots/PosteriorModelSamples(T=7).png" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,7 +17,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Assignment_1$LinearRegression.coverage" NAME="LinearRegression Coverage Results" MODIFIED="1575367307376" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Assignment_1$LinearRegression.coverage" NAME="LinearRegression Coverage Results" MODIFIED="1575393152425" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -34,7 +38,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LinearRegression.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
+            <state relative-caret-position="290">
               <caret line="34" column="31" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -148,12 +152,12 @@
       <updated>1575205718197</updated>
       <workItem from="1575205719639" duration="431000" />
       <workItem from="1575206219270" duration="6452000" />
-      <workItem from="1575214616703" duration="33390000" />
+      <workItem from="1575214616703" duration="37607000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40273000" />
+    <option name="totallyTimeSpent" value="44490000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -220,7 +224,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LinearRegression.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
+        <state relative-caret-position="290">
           <caret line="34" column="31" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />

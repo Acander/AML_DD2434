@@ -16,8 +16,9 @@ from mpl_toolkits.mplot3d import Axes3D
 #Date pairs has same indecies in x and t
 
 def main():
+    sigma = 0.1
     numberOfDataPoints = 200
-    data = generateDataSet2D(-1.5, 0.5, numberOfDataPoints)
+    data = generateDataSet2D(0.5, -1.5, numberOfDataPoints, sigma)
     x = data[0]
     t = data[1]
 
@@ -30,9 +31,9 @@ def main():
     pb.show()
 
     prior = generate2DPrior()
-    likelihood = generateLikelihood2D()
+    likelihood = generateLikelihood2D(sigma)
 
-    numberOfTrainingSamples = 7
+    numberOfTrainingSamples = 4
 
     sampledIndices = np.random.randint(0, numberOfDataPoints-1, numberOfTrainingSamples)
     dataPointsX = np.array([])
@@ -46,14 +47,14 @@ def main():
 
     sampledData = sampleDataPoints(5, posterior)
     print(sampledData)
-    w0, w1 = sampledData.T
-    pb.scatter(w0, w1)
+    w1, w0 = sampledData.T
+    pb.scatter(w1, w0)
     pb.title("Posterior Model Samples")
-    pb.xlabel("w0")
-    pb.ylabel("w1")
+    pb.xlabel("w1")
+    pb.ylabel("w0")
     pb.xlim(-3, 3)
     pb.ylim(-3, 3)
-    pb.show(    )
+    pb.show()
 
     #Prep plot for prior and posterior
     x = np.linspace(-3, 3, 500)
@@ -67,16 +68,16 @@ def main():
     fig = pb.figure()
     ax = fig.gca(projection='3d')
     ax.plot_surface(X, Y, prior.pdf(pos), cmap='viridis', linewidth=0)
-    ax.set_xlabel('w0 axis')
-    ax.set_ylabel('w1 axis')
+    ax.set_xlabel('w1 axis')
+    ax.set_ylabel('w0 axis')
     ax.set_zlabel('Z axis')
 
     #Plot posterior
     fig = pb.figure()
     ax = fig.gca(projection='3d')
     ax.plot_surface(X, Y, posterior.pdf(pos), cmap='viridis', linewidth=0)
-    ax.set_xlabel('w0 axis')
-    ax.set_ylabel('w1 axis')
+    ax.set_xlabel('w1 axis')
+    ax.set_ylabel('w0 axis')
     ax.set_zlabel('Z axis')
 
     pb.show()
@@ -98,8 +99,8 @@ def printRawData(x,  t):
 def generate2DPrior():
     return multivariate_normal([0, 0], [[1, 0], [0, 1]])
 
-def generateLikelihood2D():
-    return multivariate_normal([0, 0], [[0.2, 0], [0, 0.2]])
+def generateLikelihood2D(sigma):
+    return multivariate_normal([0, 0], [[sigma, 0], [0, sigma]])
 
 def generate2DPosteriorFromDataPoints(dataPoints, prior, likelihood):
     xList = dataPoints[0]
@@ -144,11 +145,11 @@ def printPosteriorParameters(mean, covariance):
     print("\n")
     print("---------------------------")
 
-def generateDataSet2D(w0, w1, numberOfDataPoints):
+def generateDataSet2D(w0, w1, numberOfDataPoints, sigma):
     x = np.random.uniform(-1, 1, numberOfDataPoints)
     t = np.array([])
     for i, xi in enumerate(x):
-        ti = w1 * xi + w0 + np.random.normal(0, 0.2)
+        ti = w0 * xi + w1 + np.random.normal(0, sigma)
         t = np.append(t, ti)
 
     return [x, t]
