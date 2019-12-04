@@ -19,25 +19,29 @@ from sklearn.gaussian_process.kernels import RBF
 
 def main():
     sigma = 0.2
-    lengthScale = 1
     lengthScaleBounds = (1e-1, 10)
-    prior = generateGaussianPrior(sigma, lengthScale, lengthScaleBounds)
+    print("Values:")
+    for i in range(4):
 
-    # Plot prior
-    pb.figure(figsize=(8, 8))
-    pb.subplot(2, 1, 1)
-    X_ = np.linspace(0, 5, 100)
-    y_mean, y_std = prior.predict(X_[:, np.newaxis], return_std=True)
-    pb.plot(X_, y_mean, 'k', lw=3, zorder=9)
-    pb.fill_between(X_, y_mean - y_std, y_mean + y_std,
-                     alpha=0.2, color='k')
-    y_samples = prior.sample_y(X_[:, np.newaxis], 10)
-    pb.plot(X_, y_samples, lw=1)
-    pb.xlim(0, 5)
-    pb.ylim(-3, 3)
-    pb.title("Prior", fontsize=12)
+        lengthScale = np.random.uniform(0, 10)
+        print(lengthScale)
+        prior = generateGaussianPrior(sigma, lengthScale*np.sqrt(1/2), lengthScaleBounds)
 
-    pb.show()
+        # Plot prior
+        pb.figure(figsize=(8, 8))
+        pb.subplot(2, 1, 1)
+        X_ = np.linspace(0, 5, 100)
+        y_mean, y_std = prior.predict(X_[:, np.newaxis], return_std=True)
+        pb.plot(X_, y_mean, 'k', lw=3, zorder=9)
+        pb.fill_between(X_, y_mean - y_std, y_mean + y_std,
+                         alpha=0.2, color='k')
+        y_samples = prior.sample_y(X_[:, np.newaxis], 10)
+        pb.plot(X_, y_samples, lw=1)
+        pb.xlim(0, 5)
+        pb.ylim(-3, 3)
+        pb.title("Prior", fontsize=12)
+
+        pb.show()
 
 def sampleDataPoints(numberOfPoints, distribution):
     mean = distribution.mean
