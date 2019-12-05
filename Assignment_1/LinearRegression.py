@@ -23,12 +23,12 @@ def main():
     t = data[1]
 
     printRawData(x, t)
-
     pb.scatter(x, t)
     pb.title("True Model Samples")
     pb.xlabel("x")
     pb.ylabel("t")
     pb.show()
+
 
     prior = generate2DPrior()
     sigma = 1

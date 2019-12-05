@@ -18,30 +18,65 @@ from sklearn.gaussian_process.kernels import RBF
 #Date pairs has same indecies in x and t
 
 def main():
+    data = generateDataSet()
+    x = data[0][:, np.newaxis]
+    t = data[1]
+
+    pb.scatter(x, t)
+    pb.title("True Model Samples")
+    pb.xlabel("x")
+    pb.ylabel("t")
+
     sigma = 0.2
     lengthScaleBounds = (1e-1, 10)
     print("Values:")
+
+    lengthScale = []
+
     for i in range(4):
+        lengthScale.append(np.random.uniform(0, 1))
 
-        lengthScale = np.random.uniform(0, 10)
-        print(lengthScale)
-        prior = generateGaussianPrior(sigma, lengthScale*np.sqrt(1/2), lengthScaleBounds)
+    for i in range(1):
+        for j in range(4):
+            print(lengthScale[j])
 
-        # Plot prior
-        pb.figure(figsize=(8, 8))
-        pb.subplot(2, 1, 1)
-        X_ = np.linspace(0, 5, 100)
-        y_mean, y_std = prior.predict(X_[:, np.newaxis], return_std=True)
-        pb.plot(X_, y_mean, 'k', lw=3, zorder=9)
-        pb.fill_between(X_, y_mean - y_std, y_mean + y_std,
-                         alpha=0.2, color='k')
-        y_samples = prior.sample_y(X_[:, np.newaxis], 10)
-        pb.plot(X_, y_samples, lw=1)
-        pb.xlim(0, 5)
-        pb.ylim(-3, 3)
-        pb.title("Prior", fontsize=12)
+            #Creating a prior
+            gp = generateGaussianPrior(sigma, lengthScale[j]*np.sqrt(1/2), lengthScaleBounds)
 
-        pb.show()
+            # Plot prior
+            pb.figure(figsize=(8, 8))
+            pb.subplot(2, 1, 1)
+            X_ = np.linspace(0, 5, 100)
+            y_mean, y_std = gp.predict(X_[:, np.newaxis], return_std=True)
+            pb.plot(X_, y_mean, 'k', lw=3, zorder=9)
+            pb.fill_between(X_, y_mean - y_std, y_mean + y_std,
+                             alpha=0.2, color='k')
+            y_samples = gp.sample_y(X_[:, np.newaxis], 10)
+            pb.plot(X_, y_samples, lw=1)
+            pb.xlim(0, 5)
+            pb.ylim(-3, 3)
+            pb.title("Prior", fontsize=12)
+
+            #Creating a posterior
+            gp.fit(x, t)
+
+            # Plot posterior
+            pb.subplot(2, 1, 2)
+            X_ = np.linspace(0, 5, 100)
+            t_mean, t_std = gp.predict(X_[:, np.newaxis], return_std=True)
+            pb.plot(X_, t_mean, 'k', lw=3, zorder=9)
+            pb.fill_between(X_, t_mean - t_std, t_mean + t_std,
+                             alpha=0.2, color='k')
+
+            y_samples = gp.sample_y(X_[:, np.newaxis], 10)
+            pb.plot(X_, y_samples, lw=1)
+            pb.scatter(x[:, 0], t, c='r', s=50, zorder=10, edgecolors=(0, 0, 0))
+            pb.xlim(0, 5)
+            pb.ylim(-3, 3)
+            pb.title("Posterior")
+            pb.tight_layout()
+
+    pb.show()
 
 def sampleDataPoints(numberOfPoints, distribution):
     mean = distribution.mean
@@ -106,11 +141,11 @@ def printPosteriorParameters(mean, covariance):
     print("\n")
     print("---------------------------")
 
-def generateDataSet2D(w0, w1, numberOfDataPoints, sigma):
-    x = np.random.uniform(-1, 1, numberOfDataPoints)
+def generateDataSet():
+    x = np.array([-4, -3, -2, -1, 0, 2, 3, 5])
     t = np.array([])
     for i, xi in enumerate(x):
-        ti = w0 * xi + w1 + np.random.normal(0, sigma)
+        ti = (2 + (0.5*xi)*(0.5*xi))*np.sin(3*xi) + np.random.normal(0, 0.3)
         t = np.append(t, ti)
 
     return [x, t]
