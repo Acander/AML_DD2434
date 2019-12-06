@@ -1,5 +1,7 @@
 import pylab as pb
 import numpy as np
+import matplotlib.pyplot as plt
+import LinearRegression as lr
 from math import pi
 from scipy.spatial.distance import cdist
 from scipy.stats import multivariate_normal
@@ -16,7 +18,11 @@ from mpl_toolkits.mplot3d import Axes3D
 #Date pairs has same indecies in x and t
 
 def main():
-    data = generateDataSet()
+    numberOfDataPoints = 1000
+    noise = 1
+
+    data = lr.generateDataSet2D(0.5, -1.5, numberOfDataPoints, noise)
+    #data = generateDataSet()
     x = data[0]
     t = data[1]
 
@@ -27,17 +33,23 @@ def main():
     pb.ylabel("t")
     pb.show()
 
-    sigma = 0.2
-    l = [0.2, 0.5, 0.9, 5]
-    for i in range(4):
-        prior = generateGPPrior(x, sigma, l[i])
-        samples = np.random.multivariate_normal(prior.mean, prior.cov, 50)
-        plotCurves(samples)
+    sigma = 1
+    l = 1
+
+    mean, covariance = generateGPPrior(x, sigma, l)
+    print(mean)
+    print(covariance)
+    samples = np.random.multivariate_normal(mean, covariance, 10)
+    print(samples)
+
+    plotCurves(samples)
 
 def plotCurves(samples):
-    pb.plot(samples)
-    #pb.xlim(-4, 4)
-    pb.show()
+    #pb.plot(samples)
+    x = np.arange(len(samples[0]))
+    for y in samples:
+        plt.plot(x, y)
+    plt.show()
 
 def sampleDataPoints(numberOfPoints, distribution):
     mean = distribution.mean
@@ -55,20 +67,20 @@ def printRawData(x,  t):
 
 def generateGPPrior(x, sigma, l):
     gramKernel = kernel(x, sigma, l)
-    print(gramKernel)
-    print(np.zeros(len(x)))
-    return multivariate_normal(np.zeros(len(x)), gramKernel)
+    #print(gramKernel)
+    #print(np.zeros(len(x)))
+    return np.zeros(len(x)), gramKernel
 
 #Squared Exponential covariance function
 def kernel(x, sigma, l):
     gram = []
-    print(gram)
     for j in range(len(x)):
-        Xdiff = (x - x[j])
-        exp = Xdiff*Xdiff/(l*l)
-        gramRow = sigma*sigma*np.exp(-exp)
+        xdiff = (x[j] - x)
+        #print(xdiff)
+        exp = xdiff*xdiff/(l*l)
+        #print(exp)
+        gramRow = sigma*sigma*np.exp(- exp)
         gram.append(gramRow)
-
     return np.array(gram)
 
 def generateLikelihood2D(sigma):
@@ -116,6 +128,8 @@ def printPosteriorParameters(mean, covariance):
     print(covariance)
     print("\n")
     print("---------------------------")
+
+
 
 def generateDataSet():
     x = np.array([-4, -3, -2, -1, 0, 2, 3, 5])

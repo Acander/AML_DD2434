@@ -147,14 +147,15 @@ def printPosteriorParameters(mean, covariance):
     print("---------------------------")
 
 def generateDataSet2D(w0, w1, numberOfDataPoints, sigma):
-    x = np.random.uniform(-1, 1, numberOfDataPoints)
+    #x = np.random.uniform(-1, 1, numberOfDataPoints)
+    genW = [0.5, -1.5]  # np.random.normal(0, 1, 2)
+    x = np.linspace(-1, 1, numberOfDataPoints)
     t = np.array([])
     for i, xi in enumerate(x):
         ti = w0 * xi + w1 + np.random.normal(0, sigma)
         t = np.append(t, ti)
 
     return [x, t]
-
 
 if __name__ == "__main__":
     main()
