@@ -21,8 +21,8 @@ def main():
     numberOfDataPoints = 1000
     noise = 1
 
-    #data = lr.generateDataSet2D(0.5, -1.5, numberOfDataPoints, noise)
-    data = generateDataSet()
+    data = lr.generateDataSet2D(0.5, -1.5, numberOfDataPoints, noise)
+    #data = generateDataSet()
     x = data[0]
     t = data[1]
 
@@ -38,20 +38,21 @@ def main():
     sigma = 1
     l = 1
 
-    #mean, covariance = generateGPPrior(x, sigma, l)
+    mean, covariance = generateGPPrior(x, sigma, l)
     #print(mean)
     #print(covariance)
-    #samples = np.random.multivariate_normal(mean, covariance, 10)
+    samples = np.random.multivariate_normal(mean, covariance, 10)
     #print(samples)
+    plotCurves(samples)
 
-    meanPosterior, covPosterior = posteriorGP(x, xWeWantToPredict, t, sigma, l)
-    print(xWeWantToPredict)
+    #meanPosterior, covPosterior = posteriorGP(x, xWeWantToPredict, t, sigma, l)
+    #print(xWeWantToPredict)
     #print(meanPosterior)
     #print(covPosterior)
     #samples = np.random.multivariate_normal(meanPosterior, covPosterior, 10)
 
     #plotCurvesWithPoints(samples, data, xWeWantToPredict)
-    plotDataMeanVariance(data, meanPosterior, xWeWantToPredict, np.diag(covPosterior))
+    #plotDataMeanVariance(data, meanPosterior, xWeWantToPredict, np.diag(covPosterior))
 
 def plotCurves(samples):
     #pb.plot(samples)
@@ -117,7 +118,7 @@ def posteriorGP(x, xWeWantToPredict, f, sigma, l):
 
 
 def generateGPPrior(x, sigma, l):
-    gramKernel = kernel(x, sigma, l)
+    gramKernel = kernel(x, x, sigma, l)
     #print(gramKernel)
     #print(np.zeros(len(x)))
     return np.zeros(len(x)), gramKernel
