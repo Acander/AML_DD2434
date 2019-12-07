@@ -34,7 +34,7 @@ def main():
     pb.show()
 
     sigma = 1
-    l = 1
+    l = 2
 
     mean, covariance = generateGPPrior(x, sigma, l)
     print(mean)
@@ -72,10 +72,10 @@ def generateGPPrior(x, sigma, l):
     return np.zeros(len(x)), gramKernel
 
 #Squared Exponential covariance function
-def kernel(x, sigma, l):
+def kernel(xi, xj, sigma, l):
     gram = []
-    for j in range(len(x)):
-        xdiff = (x[j] - x)
+    for i in range(len(xi)):
+        xdiff = (xi[i] - xj)
         #print(xdiff)
         exp = xdiff*xdiff/(l*l)
         #print(exp)
@@ -129,7 +129,12 @@ def printPosteriorParameters(mean, covariance):
     print("\n")
     print("---------------------------")
 
-
+def posteriorGP(x, xWeWantToPredict, f, sigma, l):
+    inverseKernel = np.linalg.inv(kernel(x, x, sigma, l))
+    mean = kernel(xWeWantToPredict, x, sigma, l)@inverseKernel@f
+    cov = kernel(xWeWantToPredict, xWeWantToPredict, sigma, l) - \
+          kernel(xWeWantToPredict, x, sigma, l)@inverseKernel@kernel(x, xWeWantToPredict)
+    return mean, cov
 
 def generateDataSet():
     x = np.array([-4, -3, -2, -1, 0, 2, 3, 5])
