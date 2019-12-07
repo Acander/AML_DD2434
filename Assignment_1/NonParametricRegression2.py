@@ -21,35 +21,78 @@ def main():
     numberOfDataPoints = 1000
     noise = 1
 
-    data = lr.generateDataSet2D(0.5, -1.5, numberOfDataPoints, noise)
-    #data = generateDataSet()
+    #data = lr.generateDataSet2D(0.5, -1.5, numberOfDataPoints, noise)
+    data = generateDataSet()
     x = data[0]
     t = data[1]
 
-    printRawData(x, t)
-    pb.scatter(x, t)
+    xWeWantToPredict = np.linspace(-15, 15, 200)
+
+    #printRawData(x, t)#
+    """pb.scatter(x, t)
     pb.title("True Model Samples")
     pb.xlabel("x")
     pb.ylabel("t")
-    pb.show()
+    pb.show()"""
 
     sigma = 1
-    l = 2
+    l = 1
 
-    mean, covariance = generateGPPrior(x, sigma, l)
-    print(mean)
-    print(covariance)
-    samples = np.random.multivariate_normal(mean, covariance, 10)
-    print(samples)
+    #mean, covariance = generateGPPrior(x, sigma, l)
+    #print(mean)
+    #print(covariance)
+    #samples = np.random.multivariate_normal(mean, covariance, 10)
+    #print(samples)
 
-    plotCurves(samples)
+    meanPosterior, covPosterior = posteriorGP(x, xWeWantToPredict, t, sigma, l)
+    print(xWeWantToPredict)
+    #print(meanPosterior)
+    #print(covPosterior)
+    #samples = np.random.multivariate_normal(meanPosterior, covPosterior, 10)
+
+    #plotCurvesWithPoints(samples, data, xWeWantToPredict)
+    plotDataMeanVariance(data, meanPosterior, xWeWantToPredict, np.diag(covPosterior))
 
 def plotCurves(samples):
     #pb.plot(samples)
     x = np.arange(len(samples[0]))
     for y in samples:
-        plt.plot(x, y)
-    plt.show()
+        pb.plot(x, y)
+    pb.show()
+
+def plotCurvesWithPoints(samples, data, xWeWantToPredict):
+    # pb.plot(samples)
+    #Samples from the posterior distribution
+
+    for y in samples:
+        pb.plot(xWeWantToPredict, y, zorder=0)
+
+    #for m in meanPosterior:
+    #   pb.plot(xWeWantToPredict, m)
+
+    #Previously observed data
+    xObserved, tObserved = data
+    pb.scatter(xObserved, tObserved, zorder=1, color='black')
+    pb.title("Predictive Posterior")
+    pb.xlabel("x")
+    pb.ylabel("t")
+
+    pb.show()
+
+def plotDataMeanVariance(data, meanPosterior, xWeWantToPredict, variance):
+
+
+    pb.plot(xWeWantToPredict, meanPosterior, zorder=1)
+    pb.fill_between(xWeWantToPredict, meanPosterior + variance, meanPosterior - variance, color='red', zorder=0)
+
+    #Previously observed data
+    xObserved, tObserved = data
+    pb.scatter(xObserved, tObserved, zorder=2, color='black')
+    pb.title("Observed data with GP posterior mean and variance")
+    pb.xlabel("x")
+    pb.ylabel("t")
+
+    pb.show()
 
 def sampleDataPoints(numberOfPoints, distribution):
     mean = distribution.mean
@@ -64,6 +107,14 @@ def printRawData(x,  t):
     print("Output vector: ")
     print(t)
     print("\n")
+
+def posteriorGP(x, xWeWantToPredict, f, sigma, l):
+    inverseKernel = np.linalg.inv(kernel(x, x, sigma, l))
+    mean = kernel(xWeWantToPredict, x, sigma, l)@inverseKernel@f
+    cov = kernel(xWeWantToPredict, xWeWantToPredict, sigma, l) - \
+          kernel(xWeWantToPredict, x, sigma, l)@inverseKernel@kernel(x, xWeWantToPredict, sigma, l)
+    return mean, cov
+
 
 def generateGPPrior(x, sigma, l):
     gramKernel = kernel(x, sigma, l)
@@ -129,12 +180,6 @@ def printPosteriorParameters(mean, covariance):
     print("\n")
     print("---------------------------")
 
-def posteriorGP(x, xWeWantToPredict, f, sigma, l):
-    inverseKernel = np.linalg.inv(kernel(x, x, sigma, l))
-    mean = kernel(xWeWantToPredict, x, sigma, l)@inverseKernel@f
-    cov = kernel(xWeWantToPredict, xWeWantToPredict, sigma, l) - \
-          kernel(xWeWantToPredict, x, sigma, l)@inverseKernel@kernel(x, xWeWantToPredict)
-    return mean, cov
 
 def generateDataSet():
     x = np.array([-4, -3, -2, -1, 0, 2, 3, 5])
