@@ -21,8 +21,8 @@ def main():
     numberOfDataPoints = 1000
     noise = 1
 
-    data = lr.generateDataSet2D(0.5, -1.5, numberOfDataPoints, noise)
-    #data = generateDataSet()
+    #data = lr.generateDataSet2D(0.5, -1.5, numberOfDataPoints, noise)
+    data = generateDataSet()
     x = data[0]
     t = data[1]
 
@@ -38,20 +38,20 @@ def main():
     sigma = 1
     l = 1
 
-    mean, covariance = generateGPPrior(x, sigma, l)
+    #mean, covariance = generateGPPrior(x, sigma, l)
     #print(mean)
     #print(covariance)
-    samples = np.random.multivariate_normal(mean, covariance, 10)
+    #samples = np.random.multivariate_normal(mean, covariance, 10)
     #print(samples)
-    plotCurves(samples)
+    #plotCurves(samples)
 
-    #meanPosterior, covPosterior = posteriorGP(x, xWeWantToPredict, t, sigma, l)
+    meanPosterior, covPosterior = posteriorGP(x, xWeWantToPredict, t, sigma, l)
     #print(xWeWantToPredict)
     #print(meanPosterior)
     #print(covPosterior)
-    #samples = np.random.multivariate_normal(meanPosterior, covPosterior, 10)
+    samples = np.random.multivariate_normal(meanPosterior, covPosterior, 10)
 
-    #plotCurvesWithPoints(samples, data, xWeWantToPredict)
+    plotCurvesWithPoints(samples, data, xWeWantToPredict)
     #plotDataMeanVariance(data, meanPosterior, xWeWantToPredict, np.diag(covPosterior))
 
 def plotCurves(samples):
@@ -110,7 +110,7 @@ def printRawData(x,  t):
     print("\n")
 
 def posteriorGP(x, xWeWantToPredict, f, sigma, l):
-    inverseKernel = np.linalg.inv(kernel(x, x, sigma, l))
+    inverseKernel = np.linalg.inv((kernel(x, x, sigma, l)) + np.identity(len(x))*0.5)
     mean = kernel(xWeWantToPredict, x, sigma, l)@inverseKernel@f
     cov = kernel(xWeWantToPredict, xWeWantToPredict, sigma, l) - \
           kernel(xWeWantToPredict, x, sigma, l)@inverseKernel@kernel(x, xWeWantToPredict, sigma, l)
