@@ -123,6 +123,7 @@ def generateGPPrior(x, sigma, l):
     #print(np.zeros(len(x)))
     return np.zeros(len(x)), gramKernel
 
+
 #Squared Exponential covariance function
 def kernel(xi, xj, sigma, l):
     gram = []
