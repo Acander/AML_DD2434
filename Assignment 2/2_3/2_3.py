@@ -29,7 +29,7 @@ from Tree import Tree
 from Tree import Node
 
 
-def calculate_likelihood(tree_topology, theta, beta):
+def calculate_likelihood(tree_topology, theta, beta, leaf=False, leafCounter=0):
     """
     This function calculates the likelihood of a sample of leaves.
     :param: tree_topology: A tree topology. Type: numpy array. Dimensions: (num_nodes, )
@@ -45,8 +45,19 @@ def calculate_likelihood(tree_topology, theta, beta):
     """
 
     # TODO Add your code here
+    #Print info about tree
     print("Tree Topology: ", tree_topology)
     print("Values for theta: ", theta)
+
+    if leaf == True:
+        
+    else:
+        if leaf == False:
+
+    leafCounter++
+    for b in range(beta):
+        if beta[b] != np.nan:
+
 
     # Start: Example Code Segment. Delete this segment completely before you implement the algorithm.
     print("Calculating the likelihood...")
