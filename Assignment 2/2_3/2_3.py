@@ -29,7 +29,7 @@ from Tree import Tree
 from Tree import Node
 
 
-def calculate_likelihood(tree_topology, theta, beta, leaf=False, leafCounter=0):
+def calculate_likelihood(tree_topology, theta, beta):
     """
     This function calculates the likelihood of a sample of leaves.
     :param: tree_topology: A tree topology. Type: numpy array. Dimensions: (num_nodes, )
@@ -46,26 +46,70 @@ def calculate_likelihood(tree_topology, theta, beta, leaf=False, leafCounter=0):
 
     # TODO Add your code here
     #Print info about tree
-    print("Tree Topology: ", tree_topology)
-    print("Values for theta: ", theta)
+    #print("Tree Topology: ", tree_topology)
+    #print("Values for theta: ", theta)
 
-    if leaf == True:
-        
-    else:
-        if leaf == False:
+    #Marginalize out parent to make a new categorical distribution
+    #Repeat until child node
+    #Repeat until all children has a 5x1 categorical distribution
+    #When finished, we have a categorical distribution for all children
+    #Now simply calculate the joint probability of the child nodes. Remember d-seperation and since we have margi. the
+    #parents, these can now be considered independent
 
-    leafCounter++
-    for b in range(beta):
-        if beta[b] != np.nan:
-
-
-    # Start: Example Code Segment. Delete this segment completely before you implement the algorithm.
-    print("Calculating the likelihood...")
-    likelihood = np.random.rand()
-    # End: Example Code Segment
+    #Calculate sub-problem
+    likelihood = calculateSubproblem(tree_topology, theta, beta)
 
     return likelihood
 
+def calculateSubproblem(tree_topology, theta, beta, parent):
+    """
+            This function calculates a sub-problem and returns the likelihood of the the branch values of that sub-tree
+            :param: tree_topology: A tree topology. Type: numpy array. Dimensions: (num_nodes, )
+            :param: theta: CPD of the tree. Type: numpy array. Dimensions: (num_nodes, K)
+            :param: beta: A list of node assignments. Type: numpy array. Dimensions: (num_nodes, )
+                        Note: Inner nodes are assigned to np.nan. The leaves have values in [K]
+            :return: likelihood: The likelihood of beta. Type: float.
+    """
+
+    if betaIsLeaf(beta[parent]):
+        print("Leaf likelihood: ", theta[beta[parent]])
+        return theta[beta[parent]]
+
+    parentCat = theta[parent]
+    child1, child2 = findChildren(tree_topology, parent)
+    child1Cat = theta[child1]
+    child2Cat = theta[child2]
+
+    theta[child1] = np.dot(parentCat, child1Cat)
+    theta[child2] = np.dot(parentCat, child2Cat)
+
+    print("New Cat distribution ", theta[child1])
+
+    return calculateSubproblem(tree_topology, theta, beta, child1)*calculateSubproblem(tree_topology, theta, beta, child2)
+
+def betaIsLeaf(betaNode):
+    if betaNode != np.nan:
+        return True
+    else:
+        return False
+
+def findChildren(tree_topology, nextNode):
+    child1 = np.nan
+    child2 = np.nan
+
+    child1 = findChild(tree_topology, nextNode, nextNode)
+    child2 = findChild(tree_topology, nextNode, child1)
+
+    return child1, child2
+
+def findChild(tree_topology, nextNode, startNode):
+    child = np.nan
+    while startNode < len(tree_topology):
+        if tree_topology[startNode] == nextNode:
+            child = startNode
+            break
+        startNode += startNode + 1
+    return child
 
 def main():
     print("Hello World!")
