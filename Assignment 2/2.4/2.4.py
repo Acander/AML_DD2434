@@ -1,19 +1,19 @@
 import numpy as np
 
-NUMBER_OF_ITERATIONS = 10
+NUMBER_OF_OBSERVATIONS = 10
 
 #Define a true distribution, parameters. Gamma for tau and normal for Xn given tau and mu.
 mean = 1
 precision = 1/130
 
-a0 = 0
-b0 = 0
-mean0 = 0
-lamda0 = 0
+a0 = 1
+b0 = 1
+mean0 = 1
+lamda0 = 1
 
 def main():
 
-    plotTrueDistribution(a0, b0, mean0, lamda0)
+    plotTrueDistribution()
 
     #set initial values for approximate distributions
     aN = 0
@@ -27,32 +27,40 @@ def main():
 
     q_a, q_b, q_mean, q_lamda = iterativeInference(np.mean(dataSet))
 
-    i += 1
-
-    plotApproximateDistribution(a, b, mean, lamda)
+    plotApproximateDistribution()
 
 def sampleFromGammaDistribution(a, b):
     return np.random.gamma(a, b)
 
 def sampleFromNormalDistribution(mean, variance):
-    return np.random.normal(mean, variance, NUMBER_OF_ITERATIONS)
+    return np.random.normal(mean, variance, NUMBER_OF_OBSERVATIONS)
 
-def expectedValueTau():
-    ev = a0/b0
+def expectedValueTau(aN, bN):
+    ev = aN/bN
     return ev
 
 def expectedValueMu(observations, meanN, lamdaN):
     squareObservationSum = 0
     for e in enumerate(observations):
         squareObservationSum += e^2
-    return (-2*np.sum(observations) + NUMBER_OF_ITERATIONS)*meanN + 1 -lamda0*lamdaN^2 + mean0^2 + squareObservationSum
+    return (-2*np.sum(observations) + NUMBER_OF_OBSERVATIONS)*meanN + 1 -lamda0*lamdaN^2 + mean0^2 + squareObservationSum
 
 def iterativeInference(meanX, dataSet):
-    meanN = (lamda0*mean0 + NUMBER_OF_ITERATIONS*meanX)/(lamda0 + NUMBER_OF_ITERATIONS)
-    lamdaN = (lamda0 + NUMBER_OF_ITERATIONS)*expectedValueTau()
+    aN = a0
+    bN = b0
+    meanN = mean0
+    lamdaN = lamda0
 
-    aN = a0 + NUMBER_OF_ITERATIONS/2
-    bN = b0 + 1/2*expectedValueMu(dataSet, meanN)
+    meanN = (lamda0*mean0 + NUMBER_OF_OBSERVATIONS*meanX)/(lamda0 + NUMBER_OF_OBSERVATIONS)
+    lamdaN = (lamda0 + NUMBER_OF_OBSERVATIONS)*expectedValueTau(aN, bN)
+
+    aN = a0 + NUMBER_OF_OBSERVATIONS/2
+    bN = b0 + 1/2*expectedValueMu(dataSet, meanN, lamdaN)
+
+    return meanN, lamdaN, aN, bN
+
+def plotTrueDistribution():
+
 
 def plotApproximateDistribution(a, b, mean, lamda):
 
