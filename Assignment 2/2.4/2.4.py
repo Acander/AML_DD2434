@@ -1,7 +1,6 @@
 import numpy as np
 
 NUMBER_OF_ITERATIONS = 10
-NUMBER_OF_DATA_SAMPLES = 100
 
 #Define a true distribution, parameters. Gamma for tau and normal for Xn given tau and mu.
 mean = 1
@@ -36,20 +35,24 @@ def sampleFromGammaDistribution(a, b):
     return np.random.gamma(a, b)
 
 def sampleFromNormalDistribution(mean, variance):
-    return np.random.normal(mean, variance, NUMBER_OF_DATA_SAMPLES)
+    return np.random.normal(mean, variance, NUMBER_OF_ITERATIONS)
 
 def expectedValueTau():
     ev = a0/b0
     return ev
 
-def expectedValueMu
+def expectedValueMu(observations, meanN, lamdaN):
+    squareObservationSum = 0
+    for e in enumerate(observations):
+        squareObservationSum += e^2
+    return (-2*np.sum(observations) + NUMBER_OF_ITERATIONS)*meanN + 1 -lamda0*lamdaN^2 + mean0^2 + squareObservationSum
 
 def iterativeInference(meanX, dataSet):
     meanN = (lamda0*mean0 + NUMBER_OF_ITERATIONS*meanX)/(lamda0 + NUMBER_OF_ITERATIONS)
     lamdaN = (lamda0 + NUMBER_OF_ITERATIONS)*expectedValueTau()
 
     aN = a0 + NUMBER_OF_ITERATIONS/2
-    bN = b0 + 1/2*
+    bN = b0 + 1/2*expectedValueMu(dataSet, meanN)
 
 def plotApproximateDistribution(a, b, mean, lamda):
 
