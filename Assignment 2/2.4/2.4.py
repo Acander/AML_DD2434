@@ -1,10 +1,16 @@
+import pylab as pb
 import numpy as np
+from math import pi
+from scipy.spatial.distance import cdist
+from scipy.stats import norm
+from scipy.stats import gamma
+from mpl_toolkits.mplot3d import Axes3D
 
 NUMBER_OF_OBSERVATIONS = 10
 
 #Define a true distribution, parameters. Gamma for tau and normal for Xn given tau and mu.
 mean = 1
-precision = 1/130
+precision = 1/20
 
 a0 = 1
 b0 = 1
@@ -12,22 +18,34 @@ mean0 = 1
 lamda0 = 1
 
 def main():
-
-    plotTrueDistribution()
-
-    #set initial values for approximate distributions
-    aN = 0
-    bN = 0
-    meanN = 0
-    lamdaN = 0
-
     dataSet = sampleFromNormalDistribution(mean, 1/precision)
 
     i = 0
 
-    q_a, q_b, q_mean, q_lamda = iterativeInference(np.mean(dataSet))
+    aN, bN, meanN, lamdaN = iterativeInference(np.mean(dataSet))
 
-    plotApproximateDistribution()
+    approximatePosterior = qPosterior(aN, bN, meanN, lamdaN)
+
+    truePosterior = posterior()
+
+def posterior(a, b, mean, lamda):
+    tau
+    return
+
+def muPrior():
+    return
+
+def tauPrior(tau, a, b):
+    return gamma(tau, a ,b)
+
+def qPosterior(aN, bN, meanN, lamdaN, u, tau):
+    return muPriorQ(meanN, lamdaN, u)*tauPriorQ(aN, bN, tau)
+
+def muPriorQ(meanN, lamdaN, u):
+    return norm.pdf(u, meanN, lamdaN)
+
+def tauPriorQ(aN, bN, tau):
+    return gamma.pdf(tau, aN, bN)
 
 def sampleFromGammaDistribution(a, b):
     return np.random.gamma(a, b)
@@ -59,12 +77,6 @@ def iterativeInference(meanX, dataSet):
 
     return meanN, lamdaN, aN, bN
 
-def plotTrueDistribution():
-
-
-def plotApproximateDistribution(a, b, mean, lamda):
-
-    return
 
 if __name__ == "__main__":
     main()
