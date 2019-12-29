@@ -63,6 +63,14 @@ def main():
     ax.set_ylabel('Y')
     pb.title('The True Posterior')
 
+def printInferenceResults(aN, bN, meanN, lamdaN):
+    print("True parameters:")
+    printParameters(a, b, mean, lamda)
+    print("Inferred results:")
+    printParameters(aN, bN, meanN, lamdaN)
+
+def printParameters(a, b, mean, lamda):
+    print("a: ", a, "\tb: ", b, "\tmean: ", mean, "\tlamda: ", lamda)
 
 def posterior(a, b, mean, lamda, tau, u, dataSet):
     return muPrior(mean, lamda*tau)*tauPrior(a, b)*likelihood(dataSet, u, tau)
