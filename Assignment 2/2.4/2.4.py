@@ -6,11 +6,14 @@ from scipy.stats import norm
 from scipy.stats import gamma
 from mpl_toolkits.mplot3d import Axes3D
 
+#Related to the observed data
 NUMBER_OF_OBSERVATIONS = 10
 
 #Define a true distribution, parameters. Gamma for tau and normal for Xn given tau and mu.
-mean = 1
-precision = 1/20
+mean = 5
+lamda = 15
+a = 2
+b = 4
 
 a0 = 1
 b0 = 1
@@ -26,26 +29,22 @@ def main():
 
     approximatePosterior = qPosterior(aN, bN, meanN, lamdaN)
 
-    truePosterior = posterior()
+    truePosterior = posterior(a0, b0, mean0, lamda0, sampleFromGammaDistribution(a, b))
 
-def posterior(a, b, mean, lamda):
-    tau
-    return
+def posterior(a, b, mean, lamda, tau):
+    return muPrior(mean, lamda*tau)*tauPrior(a, b)
 
-def muPrior():
-    return
+def likelihood():
+    return  
 
-def tauPrior(tau, a, b):
-    return gamma(tau, a ,b)
+def qPosterior(aN, bN, meanN, lamdaN):
+    return muPrior(meanN, lamdaN)*tauPrior(aN, bN)
 
-def qPosterior(aN, bN, meanN, lamdaN, u, tau):
-    return muPriorQ(meanN, lamdaN, u)*tauPriorQ(aN, bN, tau)
+def muPrior(mean, precision):
+    return norm.pdf(mean, 1/precision)
 
-def muPriorQ(meanN, lamdaN, u):
-    return norm.pdf(u, meanN, lamdaN)
-
-def tauPriorQ(aN, bN, tau):
-    return gamma.pdf(tau, aN, bN)
+def tauPrior(a, b):
+    return gamma.pdf(a, b)
 
 def sampleFromGammaDistribution(a, b):
     return np.random.gamma(a, b)
