@@ -21,7 +21,9 @@ mean0 = 1
 lamda0 = 1
 
 def main():
-    dataSet = sampleFromNormalDistribution(mean, 1/precision)
+
+    tau = sampleFromGammaDistribution(a, b)
+    dataSet = sampleFromNormalDistribution(mean, 1/lamda*tau)
 
     i = 0
 
@@ -29,13 +31,46 @@ def main():
 
     approximatePosterior = qPosterior(aN, bN, meanN, lamdaN)
 
-    truePosterior = posterior(a0, b0, mean0, lamda0, sampleFromGammaDistribution(a, b))
+    uMin, uMax, tauMin, tauMax = -5, 5, 0, 20
+    # Create meshgrid
+    xx, yy = np.mgrid[uMin:uMax:100j, tauMin:tauMax:100j]
 
-def posterior(a, b, mean, lamda, tau):
-    return muPrior(mean, lamda*tau)*tauPrior(a, b)
+    fig = pb.figure(figsize=(8, 8))
+    ax = fig.gca()
+    ax.set_xlim(uMin, uMax)
+    ax.set_ylim(tauMin, tauMax)
+    cfset = ax.contourf(xx, yy, approximatePosterior, cmap='coolwarm')
+    ax.imshow(np.rot90(approximatePosterior), cmap='coolwarm', extent=[uMin, uMax, tauMin, tauMax])
+    cset = ax.contour(xx, yy, approximatePosterior, colors='k')
+    ax.clabel(cset, inline=1, fontsize=10)
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    pb.title('Approximate Distribution q')
 
-def likelihood():
-    return  
+    pb.plot
+
+    truePosterior = posterior(a0, b0, mean0, lamda0, tau, sampleFromNormalDistribution(mean, tau), dataSet)
+
+    fig = pb.figure(figsize=(8, 8))
+    ax = fig.gca()
+    ax.set_xlim(uMin, uMax)
+    ax.set_ylim(tauMin, tauMax)
+    cfset = ax.contourf(xx, yy, truePosterior, cmap='coolwarm')
+    ax.imshow(np.rot90(truePosterior), cmap='coolwarm', extent=[uMin, uMax, tauMin, tauMax])
+    cset = ax.contour(xx, yy, truePosterior, colors='k')
+    ax.clabel(cset, inline=1, fontsize=10)
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    pb.title('The True Posterior')
+
+
+def posterior(a, b, mean, lamda, tau, u, dataSet):
+    return muPrior(mean, lamda*tau)*tauPrior(a, b)*likelihood(dataSet, u, tau)
+
+def likelihood(dataSet, u, tau):
+    firstExpression = (tau/2*np.pi)^(NUMBER_OF_OBSERVATIONS/2)
+    exponent = (tau/2)*np.sum((dataSet-u)^2)
+    return firstExpression*np.exp(exponent)
 
 def qPosterior(aN, bN, meanN, lamdaN):
     return muPrior(meanN, lamdaN)*tauPrior(aN, bN)
