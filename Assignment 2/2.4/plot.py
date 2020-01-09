@@ -2,12 +2,11 @@ import pylab as pb
 import numpy as np
 
 """
-            Create meshgrid plot over a inferred distribution
+            Plot a meshgrid over a inferred distribution
             :return: null
 """
 def plotPosterior(meanTrue, precisionTrue, posteriorFunction, a, b, mean, lamda):
-    uList = np.linspace(meanTrue - 0.5, meanTrue + 0.5, 100)
-    tauList = np.linspace(precisionTrue - 2, precisionTrue + 2, 100)
+    uList, tauList = createLineSpaceList(meanTrue, precisionTrue)
     M, T = np.meshgrid(uList, tauList)
     Z = np.zeros_like(M)
 
@@ -18,20 +17,29 @@ def plotPosterior(meanTrue, precisionTrue, posteriorFunction, a, b, mean, lamda)
     pb.contour(M, T, Z, 5, colors='blue')
 
 """
-            Create meshgrid over a 
+            Plot a meshgrid over the true distribution 
             :return: null
 """
 def plotTruePosterior(meanTrue, precisionTrue, posteriorFunction, dataSet, a, b, mean, lamda):
-    uList = np.linspace(meanTrue - 0.5, meanTrue + 0.5, 100)
-    tauList = np.linspace(precisionTrue - 2, precisionTrue + 2, 100)
+    uList, tauList = createLineSpaceList(meanTrue, precisionTrue)
     M, T = np.meshgrid(uList, tauList)
     Z = np.zeros_like(M)
 
+    """print(M)
+    print(T)
+    print(Z)"""
+
     for i in range(Z.shape[0]):
         for j in range(Z.shape[1]):
-            Z[i][j] = posteriorFunction(M[i], a, b, T[j], mean, lamda, dataSet)
+            Z[i][j] = posteriorFunction(uList[i], a, b, tauList[j], mean, lamda, dataSet)
 
     pb.contour(M, T, Z, 5, colors='blue')
+
+def createLineSpaceList(meanTrue, precisionTrue):
+    uList = np.linspace(meanTrue - 0.5, meanTrue + 0.5, 100)
+    tauList = np.linspace(precisionTrue - 2, precisionTrue + 2, 100)
+
+    return uList, tauList
 
 def plotSetUp(mean, lamda, a, b):
     custom_lines = [pb.Line2D([0], [0], color="orange", lw=5),

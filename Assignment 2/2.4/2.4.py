@@ -26,7 +26,7 @@ def main():
     p.plotSetUp(mean, lamda, a, b)
     p.plotPosterior(mean, a/b, qPosterior, aN, bN, meanN, lamdaN)
     p.plotTruePosterior(mean, a/b, posterior, dataSet, a, b, mean, lamda)
-    p.plot()
+    p.showPlot()
 
 def printInferenceResults(aN, bN, meanN, lamdaN):
     print("True parameters:")
@@ -42,7 +42,11 @@ def posterior(tauValue, a, b, muValue, mean, lamda, dataSet):
 
 def likelihood(dataSet, u, tau):
     firstExpression = (tau/2*np.pi) ** (NUMBER_OF_OBSERVATIONS/2)
+    #print(dataSet)
+    #print(u)
+    #print(tau)
     exponent = (tau/2)*np.sum((dataSet-u)**2)
+    #print(firstExpression * np.exp(exponent))
     return firstExpression*np.exp(exponent)
 
 def qPosterior(tauValue, aN, bN, muValue, meanN, lamdaN):
@@ -67,8 +71,8 @@ def expectedValueTau(aN, bN):
 def expectedValueMu(observations, meanN, lamdaN):
     squareObservationSum = 0
     for e in range(len(observations)):
-        squareObservationSum += observations[e]**2
-    return (-2*np.sum(observations) + NUMBER_OF_OBSERVATIONS)*meanN + 1 -lamda0*lamdaN**2 + mean0**2 + squareObservationSum
+        squareObservationSum += observations[e] ** 2
+    return (-2*np.sum(observations) + NUMBER_OF_OBSERVATIONS)*meanN + 1 -lamda0*lamdaN ** 2 + mean0**2 + squareObservationSum
 
 def iterativeInference(meanX, dataSet):
     aN = a0
