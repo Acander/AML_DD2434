@@ -14,6 +14,7 @@ def plotPosterior(meanTrue, precisionTrue, posteriorFunction, a, b, mean, lamda)
         for j in range(Z.shape[1]):
             Z[i][j] = posteriorFunction(tauList[j], a, b, uList[i], mean, lamda)
 
+    print(Z)
     pb.contour(M, T, Z, 5, colors='blue')
 
 """

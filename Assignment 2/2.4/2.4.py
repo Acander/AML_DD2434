@@ -1,7 +1,6 @@
 import numpy as np
 import plot as p
-from scipy.stats import norm
-from scipy.stats import gamma
+from scipy import stats
 
 NUMBER_OF_OBSERVATIONS = 10
 
@@ -42,21 +41,29 @@ def posterior(tauValue, a, b, muValue, mean, lamda, dataSet):
 
 def likelihood(dataSet, u, tau):
     firstExpression = (tau/2*np.pi) ** (NUMBER_OF_OBSERVATIONS/2)
-    #print(dataSet)
-    #print(u)
-    #print(tau)
     exponent = (tau/2)*np.sum((dataSet-u)**2)
-    #print(firstExpression * np.exp(exponent))
-    return firstExpression*np.exp(exponent)
+    likelihood = firstExpression * np.exp(exponent)
+
+    """print("exponent: ", exponent)
+    print("first expression: ", firstExpression)
+    print(likelihood)"""
+
+    return likelihood
 
 def qPosterior(tauValue, aN, bN, muValue, meanN, lamdaN):
     return muPrior(muValue, meanN, lamdaN)*tauPrior(tauValue, aN, bN)
 
 def muPrior(muValue, mean, precision):
-    return norm.pdf(muValue, mean, 1/precision)
+    #muValue = stats.norm.pdf(muValue, mean, 1 / precision)
+    muValue = np.exp(-muValue**2/2)/np.sqrt(2*np.pi)
+
+    #print("MuValue: \t", muValue, "mean: \t", mean, "precision: \t", precision)
+    return muValue
 
 def tauPrior(tauValue, a, b):
-    return gamma.pdf(tauValue, a, b)
+    tauValue = stats.gamma.pdf(tauValue, a, b)
+    #print("tauValue: ", tauValue)
+    return tauValue
 
 def sampleFromGammaDistribution(a, b):
     return np.random.gamma(a, b)
