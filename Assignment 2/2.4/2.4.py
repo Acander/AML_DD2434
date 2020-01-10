@@ -86,11 +86,14 @@ def expectedValueTau(aN, bN):
     ev = aN/bN
     return ev
 
-def expectedValueMu(observations, meanN, lamdaN):
-    squareObservationSum = 0
-    for e in range(len(observations)):
-        squareObservationSum += observations[e] ** 2
-    return (-2*np.sum(observations) + NUMBER_OF_OBSERVATIONS)*meanN + 1 -lamda0*lamdaN ** 2 + mean0**2 + squareObservationSum
+#Used to calculate the expected value function with regard to mu
+def expectedValueMu(observations, meanN, lamdaN, mean0, lamda0):
+    em2 = 1/lamdaN + meanN**2
+    sumDataMu = np.sum(np.square(observations) - 2*meanN*observations + em2)
+    sumMu = em2 - 2*mean0*meanN + mean0**2
+    finalValue = sumDataMu + lamda0*sumMu
+    print(finalValue)
+    return finalValue
 
 def iterativeInference(meanX, dataSet):
     aN = a0
@@ -104,7 +107,7 @@ def iterativeInference(meanX, dataSet):
         lamdaN = (lamda0 + NUMBER_OF_OBSERVATIONS)*expectedValueTau(aN, bN)
 
         aN = a0 + NUMBER_OF_OBSERVATIONS/2
-        bN = b0 + 1/2*expectedValueMu(dataSet, meanN, lamdaN)
+        bN = b0 + 1/2*expectedValueMu(dataSet, meanN, lamdaN, mean0, lamda0)
         i += 1
 
     return meanN, lamdaN, aN, bN
