@@ -14,8 +14,8 @@ def plotPosterior(meanTrue, precisionTrue, posteriorFunction, a, b, mean, lamda)
         for j in range(Z.shape[1]):
             Z[i][j] = posteriorFunction(tauList[j], a, b, uList[i], mean, lamda)
 
-    print(Z)
-    pb.contour(M, T, Z, 5, colors='blue')
+    #print(Z)
+    pb.contour(M, T, Z, 5, colors='red')
 
 """
             Plot a meshgrid over the true distribution 
@@ -32,19 +32,20 @@ def plotTruePosterior(meanTrue, precisionTrue, posteriorFunction, dataSet, a, b,
 
     for i in range(Z.shape[0]):
         for j in range(Z.shape[1]):
-            Z[i][j] = posteriorFunction(uList[i], a, b, tauList[j], mean, lamda, dataSet)
+            Z[i][j] = posteriorFunction(tauList[j], a, b, uList[i], mean, lamda, dataSet)
 
     pb.contour(M, T, Z, 5, colors='blue')
 
 def createLineSpaceList(meanTrue, precisionTrue):
-    uList = np.linspace(meanTrue - 0.5, meanTrue + 0.5, 100)
-    tauList = np.linspace(precisionTrue - 2, precisionTrue + 2, 100)
+    uList = np.linspace(meanTrue - 3, meanTrue + 3, 100)
+    tauList = np.linspace(precisionTrue - 0.5, precisionTrue + 0.5, 100)
+    #print(tauList)
 
     return uList, tauList
 
 def plotSetUp(mean, lamda, a, b):
-    custom_lines = [pb.Line2D([0], [0], color="orange", lw=5),
-                    pb.Line2D([0], [0], color="yellow", lw=5)]
+    custom_lines = [pb.Line2D([0], [0], color="red", lw=4),
+                    pb.Line2D([0], [0], color="blue", lw=4)]
     fig, ax = pb.subplots()
     ax.legend(custom_lines, ['Inferred', 'True'])
     pb.xlabel("mean")

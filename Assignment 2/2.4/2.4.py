@@ -1,14 +1,18 @@
 import numpy as np
 import plot as p
-from scipy import stats
+from scipy.stats import norm
+from scipy.stats import gamma
 
-NUMBER_OF_OBSERVATIONS = 10
+NUMBER_OF_OBSERVATIONS = 2
+INFERENCE_ITERATIONS = 1000
 
 #Define a true distribution, parameters. Gamma for tau and normal for Xn given tau and mu.
-mean = 5
-lamda = 15
-a = 2
-b = 4
+mean = 1
+lamda = 1
+a = 1.5
+b = 2
+
+precisionTrue = a/b
 
 #Initial parameter settings for the inferred distribution
 a0 = 1
@@ -18,13 +22,15 @@ lamda0 = 1
 
 def main():
 
-    tau = sampleFromGammaDistribution(a, b)
-    dataSet = sampleFromNormalDistribution(mean, 1/lamda*tau)
+    #tau = sampleFromGammaDistribution(a, b)
+    print(precisionTrue)
+    dataSet = sampleFromNormalDistribution(mean, 1/precisionTrue)
     aN, bN, meanN, lamdaN = iterativeInference(np.mean(dataSet), dataSet)
+    print(lamdaN)
 
     p.plotSetUp(mean, lamda, a, b)
-    p.plotPosterior(mean, a/b, qPosterior, aN, bN, meanN, lamdaN)
-    p.plotTruePosterior(mean, a/b, posterior, dataSet, a, b, mean, lamda)
+    p.plotPosterior(mean, precisionTrue, qPosterior, aN, bN, meanN, lamdaN)
+    p.plotTruePosterior(mean, precisionTrue, posterior, dataSet, a, b, mean, lamda)
     p.showPlot()
 
 def printInferenceResults(aN, bN, meanN, lamdaN):
@@ -40,8 +46,9 @@ def posterior(tauValue, a, b, muValue, mean, lamda, dataSet):
     return muPrior(muValue, mean, lamda*tauValue)*tauPrior(tauValue, a, b)*likelihood(dataSet, muValue, tauValue)
 
 def likelihood(dataSet, u, tau):
-    firstExpression = (tau/2*np.pi) ** (NUMBER_OF_OBSERVATIONS/2)
-    exponent = (tau/2)*np.sum((dataSet-u)**2)
+    firstExpression = (tau/(2*np.pi)) ** (NUMBER_OF_OBSERVATIONS/2)
+    #print(firstExpression)
+    exponent = -(tau/2)*np.sum((dataSet-u)**2)
     likelihood = firstExpression * np.exp(exponent)
 
     """print("exponent: ", exponent)
@@ -51,19 +58,23 @@ def likelihood(dataSet, u, tau):
     return likelihood
 
 def qPosterior(tauValue, aN, bN, muValue, meanN, lamdaN):
+    #print(lamdaN)
     return muPrior(muValue, meanN, lamdaN)*tauPrior(tauValue, aN, bN)
 
 def muPrior(muValue, mean, precision):
-    #muValue = stats.norm.pdf(muValue, mean, 1 / precision)
-    muValue = np.exp(-muValue**2/2)/np.sqrt(2*np.pi)
+    #print(precision)
+    muValue = norm.pdf(muValue, mean, 1 / precision)
+    #muValue = np.exp(-muValue**2/2)/np.sqrt(2*np.pi)
 
     #print("MuValue: \t", muValue, "mean: \t", mean, "precision: \t", precision)
     return muValue
 
 def tauPrior(tauValue, a, b):
-    tauValue = stats.gamma.pdf(tauValue, a, b)
+    #priorValue = 1/b**a * tauValue**(a-1) * np.exp(-1/b*tauValue) / np.euler_gamma(a)
+    priorValue = gamma.pdf(tauValue, a, loc=0, scale=(1 / b))
     #print("tauValue: ", tauValue)
-    return tauValue
+    #print("priorValue:", priorValue)
+    return priorValue
 
 def sampleFromGammaDistribution(a, b):
     return np.random.gamma(a, b)
@@ -87,11 +98,14 @@ def iterativeInference(meanX, dataSet):
     meanN = mean0
     lamdaN = lamda0
 
-    meanN = (lamda0*mean0 + NUMBER_OF_OBSERVATIONS*meanX)/(lamda0 + NUMBER_OF_OBSERVATIONS)
-    lamdaN = (lamda0 + NUMBER_OF_OBSERVATIONS)*expectedValueTau(aN, bN)
+    i = 0
+    while i < INFERENCE_ITERATIONS:
+        meanN = (lamda0*mean0 + NUMBER_OF_OBSERVATIONS*meanX)/(lamda0 + NUMBER_OF_OBSERVATIONS)
+        lamdaN = (lamda0 + NUMBER_OF_OBSERVATIONS)*expectedValueTau(aN, bN)
 
-    aN = a0 + NUMBER_OF_OBSERVATIONS/2
-    bN = b0 + 1/2*expectedValueMu(dataSet, meanN, lamdaN)
+        aN = a0 + NUMBER_OF_OBSERVATIONS/2
+        bN = b0 + 1/2*expectedValueMu(dataSet, meanN, lamdaN)
+        i += 1
 
     return meanN, lamdaN, aN, bN
 
