@@ -3,14 +3,14 @@ import plot as p
 from scipy.stats import norm
 from scipy.stats import gamma
 
-NUMBER_OF_OBSERVATIONS = 2
-INFERENCE_ITERATIONS = 1000
+NUMBER_OF_OBSERVATIONS = 1
+INFERENCE_ITERATIONS = 10000
 
 #Define a true distribution, parameters. Gamma for tau and normal for Xn given tau and mu.
 mean = 1
 lamda = 1
-a = 1.5
-b = 2
+a = 1
+b = 1
 
 precisionTrue = a/b
 
@@ -92,22 +92,28 @@ def expectedValueMu(observations, meanN, lamdaN, mean0, lamda0):
     sumDataMu = np.sum(np.square(observations) - 2*meanN*observations + em2)
     sumMu = em2 - 2*mean0*meanN + mean0**2
     finalValue = sumDataMu + lamda0*sumMu
-    print(finalValue)
     return finalValue
 
+def settingConstantValues(meanX):
+    meanN = (lamda0 * mean0 + NUMBER_OF_OBSERVATIONS * meanX) / (lamda0 + NUMBER_OF_OBSERVATIONS)
+    aN = a0 + NUMBER_OF_OBSERVATIONS / 2
+    return meanN, aN
+
+def settingIteration(aN, bN, dataSet, meanN):
+    lamdaN = (lamda0 + NUMBER_OF_OBSERVATIONS) * expectedValueTau(aN, bN)
+    bN = b0 + 1 / 2 * expectedValueMu(dataSet, meanN, lamdaN, mean0, lamda0)
+
+    return lamdaN, bN
+
 def iterativeInference(meanX, dataSet):
-    aN = a0
     bN = b0
-    meanN = mean0
     lamdaN = lamda0
+
+    meanN, aN = settingConstantValues(meanX)
 
     i = 0
     while i < INFERENCE_ITERATIONS:
-        meanN = (lamda0*mean0 + NUMBER_OF_OBSERVATIONS*meanX)/(lamda0 + NUMBER_OF_OBSERVATIONS)
-        lamdaN = (lamda0 + NUMBER_OF_OBSERVATIONS)*expectedValueTau(aN, bN)
-
-        aN = a0 + NUMBER_OF_OBSERVATIONS/2
-        bN = b0 + 1/2*expectedValueMu(dataSet, meanN, lamdaN, mean0, lamda0)
+        lamdaN, bN = settingIteration(aN, bN, dataSet, meanN)
         i += 1
 
     return meanN, lamdaN, aN, bN
