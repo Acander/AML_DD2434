@@ -38,7 +38,7 @@ def plotTruePosterior(meanTrue, precisionTrue, posteriorFunction, dataSet, a, b,
 
 def createLineSpaceList(meanTrue, precisionTrue):
     uList = np.linspace(meanTrue - 3, meanTrue + 3, 100)
-    tauList = np.linspace(precisionTrue - 0.5, precisionTrue + 0.5, 100)
+    tauList = np.linspace(precisionTrue - 0.9, precisionTrue + 0.9, 100)
     #print(tauList)
 
     return uList, tauList

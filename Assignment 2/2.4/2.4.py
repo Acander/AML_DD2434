@@ -3,7 +3,7 @@ import plot as p
 from scipy.stats import norm
 from scipy.stats import gamma
 
-NUMBER_OF_OBSERVATIONS = 1
+NUMBER_OF_OBSERVATIONS = 100
 INFERENCE_ITERATIONS = 10000
 
 #Define a true distribution, parameters. Gamma for tau and normal for Xn given tau and mu.
@@ -15,10 +15,10 @@ b = 1
 precisionTrue = a/b
 
 #Initial parameter settings for the inferred distribution
-a0 = 1
-b0 = 1
-mean0 = 1
-lamda0 = 1
+a0 = 0
+b0 = 0
+mean0 = 0
+lamda0 = 0
 
 def main():
 
@@ -64,6 +64,7 @@ def qPosterior(tauValue, aN, bN, muValue, meanN, lamdaN):
 def muPrior(muValue, mean, precision):
     #print(precision)
     muValue = norm.pdf(muValue, mean, 1 / precision)
+    #print(muValue)
     #muValue = np.exp(-muValue**2/2)/np.sqrt(2*np.pi)
 
     #print("MuValue: \t", muValue, "mean: \t", mean, "precision: \t", precision)
@@ -99,21 +100,21 @@ def settingConstantValues(meanX):
     aN = a0 + NUMBER_OF_OBSERVATIONS / 2
     return meanN, aN
 
-def settingIteration(aN, bN, dataSet, meanN):
-    lamdaN = (lamda0 + NUMBER_OF_OBSERVATIONS) * expectedValueTau(aN, bN)
+def settingIteration(aN, bN, dataSet, meanN, lamdaN):
     bN = b0 + 1 / 2 * expectedValueMu(dataSet, meanN, lamdaN, mean0, lamda0)
+    lamdaN = (lamda0 + NUMBER_OF_OBSERVATIONS) * expectedValueTau(aN, bN)
 
     return lamdaN, bN
 
 def iterativeInference(meanX, dataSet):
-    bN = b0
-    lamdaN = lamda0
+    bN = 1
+    lamdaN = 1
 
     meanN, aN = settingConstantValues(meanX)
 
     i = 0
     while i < INFERENCE_ITERATIONS:
-        lamdaN, bN = settingIteration(aN, bN, dataSet, meanN)
+        lamdaN, bN = settingIteration(aN, bN, dataSet, meanN, lamdaN)
         i += 1
 
     return meanN, lamdaN, aN, bN
