@@ -3,13 +3,13 @@ import plot as p
 from scipy.stats import norm
 from scipy.stats import gamma
 
-NUMBER_OF_OBSERVATIONS = 100
+NUMBER_OF_OBSERVATIONS = 10
 INFERENCE_ITERATIONS = 10000
 
 #Define a true distribution, parameters. Gamma for tau and normal for Xn given tau and mu.
-mean = 1
-lamda = 1
-a = 1
+mean = 3
+lamda = 2
+a = 4
 b = 1
 
 precisionTrue = a/b

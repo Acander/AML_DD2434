@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e27b408-44ef-4955-ab29-ebd9e47c2584" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2.4/2.4.py" beforeDir="false" afterPath="$PROJECT_DIR$/2.4/2.4.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2.4/plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/2.4/plot.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,7 +11,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Assignment_2$2_4.coverage" NAME="2.4 Coverage Results" MODIFIED="1578663208313" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/2.4" />
+    <SUITE FILE_PATH="coverage/Assignment_2$2_4.coverage" NAME="2.4 Coverage Results" MODIFIED="1578663543440" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/2.4" />
     <SUITE FILE_PATH="coverage/Assignment_2$2_3.coverage" NAME="2_3 Coverage Results" MODIFIED="1577661305521" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/2_3" />
   </component>
   <component name="DatabaseView">
@@ -35,7 +33,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/2.4/plot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="433">
+            <state relative-caret-position="639">
               <caret line="40" column="66" selection-start-line="40" selection-start-column="66" selection-end-line="40" selection-end-column="66" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -47,8 +45,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/2.4/2.4.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="522">
-              <caret line="120" lean-forward="true" selection-start-line="120" selection-end-line="120" />
+            <state relative-caret-position="-429">
+              <caret line="5" column="27" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -198,12 +196,12 @@
       <updated>1576937117320</updated>
       <workItem from="1576937118617" duration="35000" />
       <workItem from="1576937339816" duration="62283000" />
-      <workItem from="1578422142957" duration="57036000" />
+      <workItem from="1578422142957" duration="57504000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="119354000" />
+    <option name="totallyTimeSpent" value="119822000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="969" height="1087" extended-state="0" />
@@ -299,7 +297,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/2.4/plot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
+        <state relative-caret-position="639">
           <caret line="40" column="66" selection-start-line="40" selection-start-column="66" selection-end-line="40" selection-end-column="66" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -309,8 +307,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/2.4/2.4.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="120" lean-forward="true" selection-start-line="120" selection-end-line="120" />
+        <state relative-caret-position="-429">
+          <caret line="5" column="27" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
