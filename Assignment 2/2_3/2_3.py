@@ -25,9 +25,9 @@
 """
 
 import numpy as np
+import math as m
 from Tree import Tree
 from Tree import Node
-
 
 def calculate_likelihood(tree_topology, theta, beta):
     """
@@ -48,6 +48,7 @@ def calculate_likelihood(tree_topology, theta, beta):
     #Print info about tree
     #print("Tree Topology: ", tree_topology)
     #print("Values for theta: ", theta)
+    #print("Beta list: ", beta)
 
     #Marginalize out parent to make a new categorical distribution
     #Repeat until child node
@@ -57,11 +58,11 @@ def calculate_likelihood(tree_topology, theta, beta):
     #parents, these can now be considered independent
 
     #Calculate sub-problem
-    likelihood = calculateSubproblem(tree_topology, theta, beta)
+    likelihood = calculateSubproblem(tree_topology, theta, beta, 0, theta[0])
 
     return likelihood
 
-def calculateSubproblem(tree_topology, theta, beta, parent):
+def calculateSubproblem(tree_topology, theta, beta, parent, parentCat):
     """
             This function calculates a sub-problem and returns the likelihood of the the branch values of that sub-tree
             :param: tree_topology: A tree topology. Type: numpy array. Dimensions: (num_nodes, )
@@ -71,45 +72,41 @@ def calculateSubproblem(tree_topology, theta, beta, parent):
             :return: likelihood: The likelihood of beta. Type: float.
     """
 
+    print("Beta of parent: ", beta[parent])
+
     if betaIsLeaf(beta[parent]):
-        print("Leaf likelihood: ", theta[beta[parent]])
-        return theta[beta[parent]]
+        leafValue = int(beta[parent])
+        print("Leaf likelihood: ", parentCat[leafValue])
+        return parentCat[leafValue]
 
-    parentCat = theta[parent]
     child1, child2 = findChildren(tree_topology, parent)
-    child1Cat = theta[child1]
-    child2Cat = theta[child2]
 
-    theta[child1] = np.dot(parentCat, child1Cat)
-    theta[child2] = np.dot(parentCat, child2Cat)
 
-    print("New Cat distribution ", theta[child1])
+    childCat1 = np.transpose(parentCat).dot(theta[child1])
+    childCat2 = np.transpose(parentCat).dot(theta[child2])
 
-    return calculateSubproblem(tree_topology, theta, beta, child1)*calculateSubproblem(tree_topology, theta, beta, child2)
+    print("ParentCat: ", parentCat)
+    print("ChildCat: ", theta[child1])
+
+    print("New Cat distribution ", childCat1)
+
+    return calculateSubproblem(tree_topology, theta, beta, child1, childCat1)*calculateSubproblem(tree_topology, theta, beta, child2, childCat2)
 
 def betaIsLeaf(betaNode):
-    if betaNode != np.nan:
-        return True
-    else:
-        return False
+    return m.isnan(betaNode) is False
 
-def findChildren(tree_topology, nextNode):
-    child1 = np.nan
-    child2 = np.nan
-
-    child1 = findChild(tree_topology, nextNode, nextNode)
-    child2 = findChild(tree_topology, nextNode, child1)
+def findChildren(tree_topology, parent):
+    child1 = findChild(tree_topology, parent, parent)
+    #print("-----------------------------CHILD1--------------------------------- ::: ", child1)
+    child2 = findChild(tree_topology, parent, child1)
 
     return child1, child2
 
-def findChild(tree_topology, nextNode, startNode):
-    child = np.nan
+def findChild(tree_topology, parent, startNode):
     while startNode < len(tree_topology):
-        if tree_topology[startNode] == nextNode:
-            child = startNode
-            break
-        startNode += startNode + 1
-    return child
+        if tree_topology[startNode] == parent:
+            return startNode
+        startNode += 1
 
 def main():
     print("Hello World!")
@@ -117,7 +114,7 @@ def main():
 
     print("\n1. Load tree data from file and print it\n")
 
-    filename = "data/q2_3_medium_tree.pkl" #"data/q2_3_small_tree.pkl"  , "data/q2_3_large_tree.pkl"
+    filename = "data/q2_3_small_tree.pkl" #"data/q2_3_medium_tree.pkl", "data/q2_3_large_tree.pkl"
     t = Tree()
     t.load_tree(filename)
     t.print()

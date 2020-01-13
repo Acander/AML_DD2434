@@ -77,8 +77,8 @@ def tauPrior(tauValue, a, b):
     #print("priorValue:", priorValue)
     return priorValue
 
-def sampleFromGammaDistribution(a, b):
-    return np.random.gamma(a, b)
+"""def sampleFromGammaDistribution(a, b):
+    return np.random.gamma(a, b)"""
 
 def sampleFromNormalDistribution(mean, variance):
     return np.random.normal(mean, variance, NUMBER_OF_OBSERVATIONS)
