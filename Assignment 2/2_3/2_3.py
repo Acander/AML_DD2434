@@ -28,6 +28,10 @@ import numpy as np
 import math as m
 from Tree import Tree
 from Tree import Node
+from collections import defaultdict
+
+s_collection = defaultdict(dict)
+t_collection = defaultdict(dict)
 
 def calculate_likelihood(tree_topology, theta, beta):
     """
@@ -46,9 +50,9 @@ def calculate_likelihood(tree_topology, theta, beta):
 
     # TODO Add your code here
     #Print info about tree
-    #print("Tree Topology: ", tree_topology)
-    #print("Values for theta: ", theta)
-    #print("Beta list: ", beta)
+    print("Tree Topology: ", tree_topology)
+    print("Values for theta: ", theta)
+    print("Beta list: ", beta)
 
     #Marginalize out parent to make a new categorical distribution
     #Repeat until child node
@@ -58,11 +62,102 @@ def calculate_likelihood(tree_topology, theta, beta):
     #parents, these can now be considered independent
 
     #Calculate sub-problem
-    likelihood = calculateSubproblem(tree_topology, theta, beta, 0, theta[0])
+    #likelihood = calculateSubproblem(tree_topology, theta, beta, 0, theta[0])
+
+    #Calculate and store s_values
+    root = 0
+    for category_i, prob_i in enumerate(theta[0]):
+         s(root, category_i, beta, theta, tree_topology)
+
+    #Calculate final likelihood
+    for leaf_node, category_i in enumerate(beta):
+        #print(leaf_node)
+        #print(category_i)
+        if not np.isnan(category_i):
+            #print(leaf_node)
+            #print(category_i)
+            return t(leaf_node, category_i, tree_topology[leaf_node], theta, tree_topology)*s_collection[leaf_node].get(int(category_i))
+
+    return 0
+
+def t(child, category, parent, theta, tree_topology):
+    sibling = find_sibling(child, tree_topology)
+
+    if np.isnan(parent):
+        return theta[child][category] #This is the root
+    if t_collection[child].get(category) is not None:
+        return t_collection[child].get(category)
+
+    parent = int(parent)
+    category = int(category)
+    likelihood = 0 #likelihood for sub-tree
+    length_of_categorical_dist = len(theta[0])
+    for i in range(length_of_categorical_dist):
+        for j in range(length_of_categorical_dist):
+            '''print(child)
+            print(category)
+            print(i)
+            print(sibling)
+            print(j)
+            print(parent)'''
+            likelihood += theta[child][category][i]*theta[sibling][i][j]*s_collection[sibling].get(j)*t(parent, j, tree_topology[parent], theta, tree_topology)
+
+    t_collection[child][category] = likelihood
 
     return likelihood
 
-def calculateSubproblem(tree_topology, theta, beta, parent, parentCat):
+def s(parent, category, beta, theta, tree_topology):
+    if s_collection[parent].get(category) is not None:
+        return s_collection[parent].get(category)
+    if not np.isnan(beta[parent]): #Check if leaf node
+        #print("Returning!!!")
+        s_collection[parent][category] = 1 if beta[parent] == int(category) else 0
+        #print("Parent: ", parent)
+        #print(s_collection[parent][category])
+        return s_collection[parent][category]
+
+    child1, child2 = findChildren(tree_topology, parent)
+    #print(child1, child2)
+
+    sub_likelihood_1 = 0
+    sub_likelihood_2 = 0
+
+    for category_j, prob_j in enumerate(theta[child1][category]):
+        sub_likelihood_1 += (s(child1, category_j, beta, theta, tree_topology) * prob_j)
+
+    for category_j, prob_j in enumerate(theta[child2][category]):
+        sub_likelihood_2 += s(child2, category_j, beta, theta, tree_topology) * prob_j
+        #print(child2)
+
+    #print(sub_likelihood_1*sub_likelihood_2)
+    s_collection[parent][category] = sub_likelihood_1*sub_likelihood_2
+    #print(s_collection[parent].get(category))
+    return sub_likelihood_1*sub_likelihood_2
+
+def findChildren(tree_topology, parent):
+    child1 = findChild(tree_topology, parent, parent)
+    print("-----------------------------CHILD1--------------------------------- ::: ", child1)
+    child2 = findChild(tree_topology, parent, child1+1)
+    print("-----------------------------CHILD---------------------------------- ::: ", child2)
+    return child1, child2
+
+def findChild(tree_topology, parent, startNode):
+    while startNode < len(tree_topology):
+        print(startNode)
+        if tree_topology[startNode] == parent:
+            return startNode
+        startNode += 1
+
+def find_sibling(child, tree_topology):
+    for possible_sibling, parent in enumerate(tree_topology):
+        if np.isnan(parent) and np.isnan(tree_topology[child]) and child != possible_sibling:
+            return possible_sibling
+        elif parent == tree_topology[child] and child != possible_sibling:
+            return possible_sibling
+    return None #if there is no sibling
+
+
+'''def calculateSubproblem(tree_topology, theta, beta, parent, parentCat):
     """
             This function calculates a sub-problem and returns the likelihood of the the branch values of that sub-tree
             :param: tree_topology: A tree topology. Type: numpy array. Dimensions: (num_nodes, )
@@ -108,13 +203,18 @@ def findChild(tree_topology, parent, startNode):
             return startNode
         startNode += 1
 
+'''
+
 def main():
     print("Hello World!")
     print("This file is the solution template for question 2.3.")
 
     print("\n1. Load tree data from file and print it\n")
 
-    filename = "data/q2_3_small_tree.pkl" #"data/q2_3_medium_tree.pkl", "data/q2_3_large_tree.pkl"
+    filename = "data/q2_3_small_tree.pkl"
+    #filename = "data/q2_3_medium_tree.pkl"
+    #filename = "data/q2_3_large_tree.pkl"
+
     t = Tree()
     t.load_tree(filename)
     t.print()
@@ -123,11 +223,18 @@ def main():
     # These filtered samples already available in the tree object.
     # Alternatively, if you want, you can load them from corresponding .txt or .npy files
 
+    '''
     for sample_idx in range(t.num_samples):
         beta = t.filtered_samples[sample_idx]
         print("\n\tSample: ", sample_idx, "\tBeta: ", beta)
         sample_likelihood = calculate_likelihood(t.get_topology_array(), t.get_theta_array(), beta)
         print("\tLikelihood: ", sample_likelihood)
+    '''
+
+    beta = t.filtered_samples[0]
+    print("\n\tSample: ", 0, "\tBeta: ", beta)
+    sample_likelihood = calculate_likelihood(t.get_topology_array(), t.get_theta_array(), beta)
+    print("\tLikelihood: ", sample_likelihood)
 
 
 if __name__ == "__main__":
