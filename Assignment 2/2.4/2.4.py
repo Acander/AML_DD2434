@@ -3,14 +3,14 @@ import plot as p
 from scipy.stats import norm
 from scipy.stats import gamma
 
-NUMBER_OF_OBSERVATIONS = 10
-INFERENCE_ITERATIONS = 20
+NUMBER_OF_OBSERVATIONS = 50
+INFERENCE_ITERATIONS = 1000
 
 #Define a true distribution, parameters. Gamma for tau and normal for Xn given tau and mu.
 mean = 5
-lamda = 5
-a = 1
-b = 2
+lamda = 1
+a = 3
+b = 4
 
 precisionTrue = a/b
 
@@ -47,38 +47,21 @@ def posterior(tauValue, a, b, muValue, mean, lamda, dataSet):
 
 def likelihood(dataSet, u, tau):
     firstExpression = (tau/(2*np.pi)) ** (NUMBER_OF_OBSERVATIONS/2)
-    #print(firstExpression)
     exponent = -(tau/2)*np.sum((dataSet-u)**2)
     likelihood = firstExpression * np.exp(exponent)
-
-    """print("exponent: ", exponent)
-    print("first expression: ", firstExpression)
-    print(likelihood)"""
 
     return likelihood
 
 def qPosterior(tauValue, aN, bN, muValue, meanN, lamdaN):
-    #print(lamdaN)
     return muPrior(muValue, meanN, lamdaN)*tauPrior(tauValue, aN, bN)
 
 def muPrior(muValue, mean, precision):
-    #print(precision)
-    muValue = norm.pdf(muValue, mean, 1 / precision)
-    #print(muValue)
-    #muValue = np.exp(-muValue**2/2)/np.sqrt(2*np.pi)
-
-    #print("MuValue: \t", muValue, "mean: \t", mean, "precision: \t", precision)
+    muValue = norm.pdf(muValue, mean, np.sqrt(1 / precision))
     return muValue
 
 def tauPrior(tauValue, a, b):
-    #priorValue = 1/b**a * tauValue**(a-1) * np.exp(-1/b*tauValue) / np.euler_gamma(a)
     priorValue = gamma.pdf(tauValue, a, loc=0, scale=(1 / b))
-    #print("tauValue: ", tauValue)
-    #print("priorValue:", priorValue)
     return priorValue
-
-"""def sampleFromGammaDistribution(a, b):
-    return np.random.gamma(a, b)"""
 
 def sampleFromNormalDistribution(mean, variance):
     return np.random.normal(mean, variance, NUMBER_OF_OBSERVATIONS)
