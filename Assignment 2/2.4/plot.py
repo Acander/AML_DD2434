@@ -7,7 +7,7 @@ import numpy as np
 """
 def plotPosterior(meanTrue, precisionTrue, posteriorFunction, a, b, mean, lamda):
     uList, tauList = createLineSpaceList(meanTrue, precisionTrue)
-    M, T = np.meshgrid(uList, tauList)
+    M, T = np.meshgrid(uList, tauList, indexing="ij")
     Z = np.zeros_like(M)
 
     for i in range(Z.shape[0]):
@@ -23,7 +23,7 @@ def plotPosterior(meanTrue, precisionTrue, posteriorFunction, a, b, mean, lamda)
 """
 def plotTruePosterior(meanTrue, precisionTrue, posteriorFunction, dataSet, a, b, mean, lamda):
     uList, tauList = createLineSpaceList(meanTrue, precisionTrue)
-    M, T = np.meshgrid(uList, tauList)
+    M, T = np.meshgrid(uList, tauList, indexing="ij")
     Z = np.zeros_like(M)
 
     """print(M)
@@ -37,8 +37,8 @@ def plotTruePosterior(meanTrue, precisionTrue, posteriorFunction, dataSet, a, b,
     pb.contour(M, T, Z, 5, colors='blue')
 
 def createLineSpaceList(meanTrue, precisionTrue):
-    uList = np.linspace(meanTrue - 3, meanTrue + 3, 100)
-    tauList = np.linspace(precisionTrue - 0.9, precisionTrue + 0.9, 100)
+    uList = np.linspace(meanTrue - 0.5, meanTrue + 0.5, 100)
+    tauList = np.linspace(precisionTrue - 0.75, precisionTrue + 0.75, 100)
     #print(tauList)
 
     return uList, tauList
@@ -50,7 +50,7 @@ def plotSetUp(mean, lamda, a, b):
     ax.legend(custom_lines, ['Inferred', 'True'])
     pb.xlabel("mean")
     pb.ylabel("precision")
-    pb.title("True Posterior and Inferred Posterior, Iterations =" + str(iter) + "\n" + "Prior mu = " + str(
+    pb.title("Posteriors, N_Iterations =" + str(iter) + "\n" + "Prior mu = " + str(
         mean) + ", lambda = " + str(lamda) + ", a = " + str(a) + ", b = " + str(b))
 
 def showPlot():

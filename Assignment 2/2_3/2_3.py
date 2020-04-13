@@ -108,16 +108,17 @@ def t(child, category, parent, theta, tree_topology):
 
 def s(parent, category, beta, theta, tree_topology):
     if s_collection[parent].get(category) is not None:
+        print("Already calculated")
         return s_collection[parent].get(category)
     if not np.isnan(beta[parent]): #Check if leaf node
         #print("Returning!!!")
         s_collection[parent][category] = 1 if beta[parent] == int(category) else 0
-        #print("Parent: ", parent)
+        print("Leaf: ", parent)
         #print(s_collection[parent][category])
         return s_collection[parent][category]
 
     child1, child2 = findChildren(tree_topology, parent)
-    #print(child1, child2)
+    print(child1, child2)
 
     sub_likelihood_1 = 0
     sub_likelihood_2 = 0
@@ -136,14 +137,14 @@ def s(parent, category, beta, theta, tree_topology):
 
 def findChildren(tree_topology, parent):
     child1 = findChild(tree_topology, parent, parent)
-    print("-----------------------------CHILD1--------------------------------- ::: ", child1)
+    #print("-----------------------------CHILD1--------------------------------- ::: ", child1)
     child2 = findChild(tree_topology, parent, child1+1)
-    print("-----------------------------CHILD---------------------------------- ::: ", child2)
+    #print("-----------------------------CHILD---------------------------------- ::: ", child2)
     return child1, child2
 
 def findChild(tree_topology, parent, startNode):
     while startNode < len(tree_topology):
-        print(startNode)
+        #print(startNode)
         if tree_topology[startNode] == parent:
             return startNode
         startNode += 1

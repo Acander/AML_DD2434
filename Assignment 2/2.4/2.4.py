@@ -3,13 +3,13 @@ import plot as p
 from scipy.stats import norm
 from scipy.stats import gamma
 
-NUMBER_OF_OBSERVATIONS = 10
-INFERENCE_ITERATIONS = 10000
+NUMBER_OF_OBSERVATIONS = 50
+INFERENCE_ITERATIONS = 1
 
 #Define a true distribution, parameters. Gamma for tau and normal for Xn given tau and mu.
-mean = 3
-lamda = 2
-a = 4
+mean = 1
+lamda = 1
+a = 1
 b = 1
 
 precisionTrue = a/b
@@ -25,7 +25,7 @@ def main():
     #tau = sampleFromGammaDistribution(a, b)
     print(precisionTrue)
     dataSet = sampleFromNormalDistribution(mean, 1/precisionTrue)
-    aN, bN, meanN, lamdaN = iterativeInference(np.mean(dataSet), dataSet)
+    meanN, lamdaN, aN, bN = iterativeInference(np.mean(dataSet), dataSet)
     print(lamdaN)
 
     p.plotSetUp(mean, lamda, a, b)
