@@ -3,14 +3,14 @@ import plot as p
 from scipy.stats import norm
 from scipy.stats import gamma
 
-NUMBER_OF_OBSERVATIONS = 50
-INFERENCE_ITERATIONS = 1
+NUMBER_OF_OBSERVATIONS = 10
+INFERENCE_ITERATIONS = 20
 
 #Define a true distribution, parameters. Gamma for tau and normal for Xn given tau and mu.
-mean = 1
-lamda = 1
+mean = 5
+lamda = 5
 a = 1
-b = 1
+b = 2
 
 precisionTrue = a/b
 
@@ -28,7 +28,7 @@ def main():
     meanN, lamdaN, aN, bN = iterativeInference(np.mean(dataSet), dataSet)
     print(lamdaN)
 
-    p.plotSetUp(mean, lamda, a, b)
+    p.plotSetUp(mean, lamda, a, b, INFERENCE_ITERATIONS, NUMBER_OF_OBSERVATIONS)
     p.plotPosterior(mean, precisionTrue, qPosterior, aN, bN, meanN, lamdaN)
     p.plotTruePosterior(mean, precisionTrue, posterior, dataSet, a, b, mean, lamda)
     p.showPlot()

@@ -43,15 +43,15 @@ def createLineSpaceList(meanTrue, precisionTrue):
 
     return uList, tauList
 
-def plotSetUp(mean, lamda, a, b):
+def plotSetUp(mean, lamda, a, b, VI_iter, N_obs):
     custom_lines = [pb.Line2D([0], [0], color="red", lw=4),
                     pb.Line2D([0], [0], color="blue", lw=4)]
     fig, ax = pb.subplots()
     ax.legend(custom_lines, ['Inferred', 'True'])
-    pb.xlabel("mean")
-    pb.ylabel("precision")
-    pb.title("Posteriors, N_Iterations =" + str(iter) + "\n" + "Prior mu = " + str(
-        mean) + ", lambda = " + str(lamda) + ", a = " + str(a) + ", b = " + str(b))
+    pb.xlabel("Mean")
+    pb.ylabel("Precision")
+    pb.title("Posteriors, Iterations: " + str(VI_iter) + ", Observations: " + str(N_obs) + "\n" + "True Prior Params: mu = " +
+             str(mean) + ", lambda = " + str(lamda) + ", a = " + str(a) + ", b = " + str(b))
 
 def showPlot():
     pb.show()
