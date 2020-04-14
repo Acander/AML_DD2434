@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e27b408-44ef-4955-ab29-ebd9e47c2584" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2.4/2.4.py" beforeDir="false" afterPath="$PROJECT_DIR$/2.4/2.4.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2_3/2_3.py" beforeDir="false" afterPath="$PROJECT_DIR$/2_3/2_3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2_3/Tree.py" beforeDir="false" afterPath="$PROJECT_DIR$/2_3/Tree.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,7 +13,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/Assignment_2$2_4.coverage" NAME="2.4 Coverage Results" MODIFIED="1586810737750" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/2.4" />
-    <SUITE FILE_PATH="coverage/Assignment_2$2_3.coverage" NAME="2_3 Coverage Results" MODIFIED="1586769646712" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/2_3" />
+    <SUITE FILE_PATH="coverage/Assignment_2$2_3.coverage" NAME="2_3 Coverage Results" MODIFIED="1586870280024" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/2_3" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -30,64 +30,32 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5089234">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/2.4/plot.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="34">
-                  <caret line="2" selection-start-line="2" selection-end-line="2" />
-                  <folding>
-                    <element signature="e#0#18#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/2.4/2.4.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="153">
-                  <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
-                  <folding>
-                    <element signature="e#0#18#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/2_3/2_3.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1445">
-                  <caret line="89" selection-start-line="89" selection-end-line="89" />
-                  <folding>
-                    <element signature="e#1538#1556#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/2.4/plot.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="383">
-                  <caret line="52" column="38" selection-start-line="52" selection-start-column="38" selection-end-line="52" selection-end-column="38" />
-                  <folding>
-                    <element signature="e#0#18#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/2_3/2_3.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="84" column="22" lean-forward="true" selection-start-line="84" selection-start-column="22" selection-end-line="84" selection-end-column="22" />
+              <folding>
+                <element signature="e#1538#1556#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/2_3/Tree.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="11424">
+              <caret line="672" column="23" selection-start-line="672" selection-start-column="23" selection-end-line="672" selection-end-column="23" />
+              <folding>
+                <element signature="e#232#250#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -113,13 +81,14 @@
         <option value="$PROJECT_DIR$/ComputeLikelihood.py" />
         <option value="$PROJECT_DIR$/SimpleVI.py" />
         <option value="$PROJECT_DIR$/2.4/utils.py" />
-        <option value="$PROJECT_DIR$/2_3/2_3.py" />
         <option value="$PROJECT_DIR$/2.4/plot.py" />
         <option value="$PROJECT_DIR$/2.4/2.4.py" />
+        <option value="$PROJECT_DIR$/2_3/Tree.py" />
+        <option value="$PROJECT_DIR$/2_3/2_3.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="976" />
@@ -138,6 +107,11 @@
             <path>
               <item name="Assignment 2" type="b2602c69:ProjectViewProjectNode" />
               <item name="Assignment 2" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Assignment 2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Assignment 2" type="462c0819:PsiDirectoryNode" />
+              <item name="2_3" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -164,7 +138,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.2.4">
+  <component name="RunManager" selected="Python.2_3">
     <configuration name="2_3" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Assignment 2" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -211,8 +185,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.2.4" />
         <item itemvalue="Python.2_3" />
+        <item itemvalue="Python.2.4" />
       </list>
     </recent_temporary>
   </component>
@@ -236,22 +210,23 @@
       <workItem from="1584378397121" duration="43000" />
       <workItem from="1585064236169" duration="95000" />
       <workItem from="1586764915212" duration="10061000" />
-      <workItem from="1586807892605" duration="2556000" />
+      <workItem from="1586807892605" duration="18789000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="189381000" />
+    <option name="totallyTimeSpent" value="205614000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
+    <frame x="-8" y="-8" width="976" height="1096" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.07409382" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15174672" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3613707" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.25337487" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39937106" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -265,7 +240,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info active="true" anchor="right" id="SciView" order="3" visible="true" weight="0.41897655" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.41897655" />
       <window_info anchor="right" id="Database" order="4" weight="0.32932165" />
     </layout>
     <layout-to-restore>
@@ -312,11 +287,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2_3/Tree.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2040" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../untitled1/venv/Lib/site-packages/matplotlib/contour.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="218">
@@ -333,13 +303,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/2_3/2_3.py">
+    <entry file="file://$PROJECT_DIR$/../../../untitled1/venv/Lib/site-packages/scipy/stats/_distn_infrastructure.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1445">
-          <caret line="89" selection-start-line="89" selection-end-line="89" />
-          <folding>
-            <element signature="e#1538#1556#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="196">
+          <caret line="1741" selection-start-line="1741" selection-end-line="1741" />
         </state>
       </provider>
     </entry>
@@ -353,19 +320,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../untitled1/venv/Lib/site-packages/scipy/stats/_distn_infrastructure.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="1741" selection-start-line="1741" selection-end-line="1741" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/2.4/2.4.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
+        <state relative-caret-position="90">
           <caret line="9" column="8" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="8" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2_3/Tree.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11424">
+          <caret line="672" column="23" selection-start-line="672" selection-start-column="23" selection-end-line="672" selection-end-column="23" />
+          <folding>
+            <element signature="e#232#250#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/2_3/2_3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="84" column="22" lean-forward="true" selection-start-line="84" selection-start-column="22" selection-end-line="84" selection-end-column="22" />
+          <folding>
+            <element signature="e#1538#1556#0" expanded="true" />
           </folding>
         </state>
       </provider>
